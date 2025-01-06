@@ -1,0 +1,52 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "Support"
+						}
+					}
+				]
+			},
+			"body": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Ut proident Lorem proident laborum officia culpa nulla laborum aute reprehenderit reprehenderit dolor do elit. Culpa cillum tempor velit et occaecat et."
+						}
+					}
+				]
+			},
+			"product": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"skateboard",
+								{
+									"key": "14cd1387-45a3-42c5-8eb1-279ce4d92192",
+									"__TYPE__": "LinkContent",
+									"value": {
+										"__TYPE__": "DocumentLink",
+										"id": "mock_document_id"
+									}
+								}
+							]
+						]
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

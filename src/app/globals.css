@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+img{
+
+  -webkit-user-drag: none;
+}
+
+html {
+
+  user-select: none;
+}
+
+
 .bg-texture {
     background-image: url("/bg-texture.webp");
     background-size: 720px 460px;
@@ -61,3 +74,5 @@
       );
     }
   }
+
+

@@ -32,7 +32,7 @@ export async function Footer({}: Props) {
       </Bounded>
       
       <p className='text-center mb-4'>
-        &copy; {currentYear} <a href="https://www.linkedin.com/in/anas-farooq06/">Anas Farooq.</a> All rights reserved. | Powered by <a href="https://prismic.io/">Prismic</a>
+        &copy; {currentYear} <a href="https://www.linkedin.com/in/anas-farooq06/" title="Visit my LinkedIn profile">Anas Farooq.</a> All rights reserved. | Powered by <a href="https://prismic.io/">Prismic</a>
       </p>
     </footer>
   )

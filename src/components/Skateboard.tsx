@@ -95,6 +95,7 @@ const truckMaterial = useMemo(
 )
 
 const deckTexture = useTexture("/skateboard/Deck.webp");
+deckTexture.flipY = false;
 
 const deckMaterial = useMemo(
     () => new THREE.MeshStandardMaterial({
@@ -102,8 +103,23 @@ const deckMaterial = useMemo(
         roughness: 0.1,
 
     }), 
-    [truckColor]
+    [deckTexture]
 )
+
+const wheelTexture = useTexture("/skateboard/SkateWheel1.png");
+wheelTexture.flipY = false;
+
+
+const wheelMaterial = useMemo(
+    () => new THREE.MeshStandardMaterial({
+        map: wheelTexture,
+        roughness: 0.1,
+
+    }), 
+    [wheelTexture]
+)
+
+
 
 
   return (
@@ -122,7 +138,7 @@ const deckMaterial = useMemo(
           castShadow
           receiveShadow
           geometry={nodes.Wheel1.geometry}
-          material={nodes.Wheel1.material}
+          material={wheelMaterial}
           position={[0.238, 0.086, 0.635]}
         />
         <mesh
@@ -130,7 +146,7 @@ const deckMaterial = useMemo(
           castShadow
           receiveShadow
           geometry={nodes.Wheel2.geometry}
-          material={nodes.Wheel2.material}
+          material={wheelMaterial}
           position={[-0.237, 0.086, 0.635]}
         />
         <mesh
@@ -146,7 +162,7 @@ const deckMaterial = useMemo(
           castShadow
           receiveShadow
           geometry={nodes.Wheel4.geometry}
-          material={nodes.Wheel4.material}
+          material={wheelMaterial}
           position={[-0.238, 0.086, -0.635]}
           rotation={[Math.PI, 0, Math.PI]}
         />
@@ -164,7 +180,7 @@ const deckMaterial = useMemo(
           castShadow
           receiveShadow
           geometry={nodes.Wheel3.geometry}
-          material={nodes.Wheel3.material}
+          material={wheelMaterial}
           position={[0.237, 0.086, -0.635]}
           rotation={[Math.PI, 0, Math.PI]}
         />

@@ -56,8 +56,43 @@ gripTapeRoughness.anisotropy = 8;
 
 
 
+
 return material;
 }, [gripTapeDiffuse, gripTapeRoughness])
+
+const boltColor = "#555555"
+
+const boltMaterial = useMemo(
+    () => new THREE.MeshStandardMaterial({
+        color: boltColor,
+        metalness: .5,
+        roughness: 0.3,
+
+
+    }), [boltColor]
+)
+
+const metalNormal = useTexture("/skateboard/metal-normal.avif")
+metalNormal.wrapS = 1000;
+metalNormal.wrapT = 1000;
+metalNormal.anisotropy = 8;
+metalNormal.repeat.set(8,8);
+
+
+
+const truckColor = "#555555"
+
+const truckMaterial = useMemo(
+    () => new THREE.MeshStandardMaterial({
+        color: truckColor,
+        normalMap: metalNormal,
+        normalScale: new THREE.Vector2(0.3, 0.3),
+        metalness: 0.8,
+        roughness: 0.25,
+
+    }), 
+    [truckColor]
+)
 
   return (
     <group {...props} dispose={null}>
@@ -108,7 +143,7 @@ return material;
           castShadow
           receiveShadow
           geometry={nodes.Bolts.geometry}
-          material={nodes.Bolts.material}
+          material={boltMaterial}
           position={[0, 0.198, 0]}
           rotation={[Math.PI, 0, Math.PI]}
         />
@@ -134,7 +169,7 @@ return material;
           castShadow
           receiveShadow
           geometry={nodes.Truck1.geometry}
-          material={nodes.Truck1.material}
+          material={truckMaterial}
           position={[0, 0.101, -0.617]}
         />
         <mesh
@@ -142,7 +177,7 @@ return material;
           castShadow
           receiveShadow
           geometry={nodes.Truck2.geometry}
-          material={nodes.Truck2.material}
+          material={truckMaterial}
           position={[0, 0.101, 0.617]}
           rotation={[Math.PI, 0, Math.PI]}
         />

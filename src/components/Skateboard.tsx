@@ -1,10 +1,17 @@
 import * as THREE from 'three'
-import React, { useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { useGLTF, useTexture } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
+import { useFrame } from '@react-three/fiber'
 
 type skateboardProps = {
-
+    wheelTextureURLs: string[];
+    wheelTextureURL: string;
+    deckTextureURLs: string [];
+    deckTextureURL: string;
+    truckColor: string;
+    boltColor: string;
+    constantWheelSpin?: boolean;
 }
 
 type GLTFResult = GLTF & {
@@ -23,8 +30,44 @@ type GLTFResult = GLTF & {
   materials: {}
 }
 
-export function Skateboard(props: skateboardProps) {
+export function Skateboard({
+    wheelTextureURL, wheelTextureURLs, deckTextureURL, deckTextureURLs, truckColor, boltColor, constantWheelSpin = false,
+}: skateboardProps) {
+
+const wheelRefs = useRef<THREE.Object3D[]>([])
+    
   const { nodes } = useGLTF('/skateboard.gltf') as GLTFResult
+
+// Wheel Texture 
+
+  const wheelTextures = useTexture(wheelTextureURLs);
+
+wheelTextures.forEach((texture) => {
+  texture.flipY = false;
+  texture.colorSpace = THREE.SRGBColorSpace;
+});
+
+const wheelTextureIndex = wheelTextureURLs.findIndex(
+  (url) => url === wheelTextureURL
+);
+
+const wheelTexture = wheelTextures[wheelTextureIndex];
+
+// Deck Texture 
+
+const deckTextures = useTexture(deckTextureURLs);
+
+deckTextures.forEach((texture) => {
+  texture.flipY = false;
+  texture.colorSpace = THREE.SRGBColorSpace;
+});
+
+const deckTextureIndex = deckTextureURLs.findIndex(
+  (url) => url === deckTextureURL
+);
+
+const deckTexture = deckTextures[deckTextureIndex];
+
 
   const gripTapeDiffuse = useTexture("/skateboard/griptape-diffuse.webp")
 const gripTapeRoughness = useTexture("/skateboard/griptape-roughness.webp")
@@ -60,7 +103,7 @@ gripTapeRoughness.anisotropy = 8;
 return material;
 }, [gripTapeDiffuse, gripTapeRoughness])
 
-const boltColor = "#555555"
+
 
 const boltMaterial = useMemo(
     () => new THREE.MeshStandardMaterial({
@@ -80,8 +123,6 @@ metalNormal.repeat.set(8,8);
 
 
 
-const truckColor = "#555555"
-
 const truckMaterial = useMemo(
     () => new THREE.MeshStandardMaterial({
         color: truckColor,
@@ -94,9 +135,6 @@ const truckMaterial = useMemo(
     [truckColor]
 )
 
-const deckTexture = useTexture("/skateboard/Deck.webp");
-deckTexture.flipY = false;
-
 const deckMaterial = useMemo(
     () => new THREE.MeshStandardMaterial({
         map: deckTexture,
@@ -105,9 +143,6 @@ const deckMaterial = useMemo(
     }), 
     [deckTexture]
 )
-
-const wheelTexture = useTexture("/skateboard/SkateWheel1.png");
-wheelTexture.flipY = false;
 
 
 const wheelMaterial = useMemo(
@@ -119,11 +154,31 @@ const wheelMaterial = useMemo(
     [wheelTexture]
 )
 
+// Add Wheel Refs 
+
+const addToWheelRefs = (ref: THREE.Object3D | null) => {
+    if (ref && !wheelRefs.current.includes(ref)) {
+        wheelRefs.current.push(ref)
+    }
+}
+
+    useFrame(()=>{
+        if (!wheelRefs.current || !constantWheelSpin) return;
+        for (const wheel of wheelRefs.current) {
+            wheel.rotation.x += 0.2;
+        }
+    })
+
+    useEffect(() => {
+        if (!wheelRefs.current || constantWheelSpin) return;
+        for (const wheel of wheelRefs.current) {
 
 
+        }
+    }, [constantWheelSpin])
 
   return (
-    <group {...props} dispose={null}>
+    <group dispose={null}>
       <group name="Scene">
         <mesh
           name="GripTape"
@@ -140,6 +195,7 @@ const wheelMaterial = useMemo(
           geometry={nodes.Wheel1.geometry}
           material={wheelMaterial}
           position={[0.238, 0.086, 0.635]}
+          ref={addToWheelRefs}
         />
         <mesh
           name="Wheel2"
@@ -148,6 +204,7 @@ const wheelMaterial = useMemo(
           geometry={nodes.Wheel2.geometry}
           material={wheelMaterial}
           position={[-0.237, 0.086, 0.635]}
+          ref={addToWheelRefs}
         />
         <mesh
           name="Deck"
@@ -165,6 +222,7 @@ const wheelMaterial = useMemo(
           material={wheelMaterial}
           position={[-0.238, 0.086, -0.635]}
           rotation={[Math.PI, 0, Math.PI]}
+          ref={addToWheelRefs}
         />
         <mesh
           name="Bolts"
@@ -183,6 +241,7 @@ const wheelMaterial = useMemo(
           material={wheelMaterial}
           position={[0.237, 0.086, -0.635]}
           rotation={[Math.PI, 0, Math.PI]}
+          ref={addToWheelRefs}
         />
         <mesh
           name="Baseplates"

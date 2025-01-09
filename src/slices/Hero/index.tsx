@@ -10,6 +10,7 @@ import { Content } from "@prismicio/client";
 import { PrismicNextLink } from "@prismicio/next";
 import { PrismicRichText, PrismicText, SliceComponentProps } from "@prismicio/react";
 import { JSX } from "react";
+import { InteractiveSkateboard } from "./InteractiveSkateboard";
 
 /**
  * Props for `Hero`.
@@ -46,6 +47,9 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
 </ButtonLink>
 </div>
     </div>
+
+
+    <InteractiveSkateboard/>
 
     </Bounded>
   );

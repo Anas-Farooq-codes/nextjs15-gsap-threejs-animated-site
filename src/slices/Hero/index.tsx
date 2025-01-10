@@ -27,7 +27,7 @@ export type HeroProps = SliceComponentProps<Content.HeroSlice>;
  */
 const Hero = ({ slice }: HeroProps): JSX.Element => {
   const deckTextureURL = asImageSrc(slice.primary.skateboard_deck_texture) || DEFAULT_DECK_TEXTURE;
-  const wheelTextureURL = asImageSrc(slice.primary.skateboard_deck_texture) || DEFAULT_WHEEL_TEXTURE;
+  const wheelTextureURL = asImageSrc(slice.primary.skateboard_wheel_texture) || DEFAULT_WHEEL_TEXTURE;
 const truckColor = slice.primary.skateboard_truck_color || DEFAULT_TRUCK_COLOR;
 const boltColor = slice.primary.skateboard_bolt_color || DEFAULT_BOLT_COLOR;
 

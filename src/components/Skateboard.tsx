@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useRef } from 'react'
 import { useGLTF, useTexture } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import { useFrame } from '@react-three/fiber'
+import gsap from 'gsap'
 
 type skateboardProps = {
     wheelTextureURLs: string[];
@@ -78,6 +79,7 @@ const gripTapeMaterial = useMemo(() => {
 const material = new THREE.MeshStandardMaterial({
     map: gripTapeDiffuse,
     bumpMap: gripTapeRoughness,
+    roughnessMap: gripTapeRoughness,
     bumpScale: 3.5,
     roughness: .8,
     color: "#555555",
@@ -116,10 +118,11 @@ const boltMaterial = useMemo(
 )
 
 const metalNormal = useTexture("/skateboard/metal-normal.avif")
-metalNormal.wrapS = 1000;
-metalNormal.wrapT = 1000;
+
+metalNormal.wrapS = THREE.RepeatWrapping;
+metalNormal.wrapT = THREE.RepeatWrapping;
 metalNormal.anisotropy = 8;
-metalNormal.repeat.set(8,8);
+metalNormal.repeat.set(8, 8);
 
 
 
@@ -172,10 +175,15 @@ const addToWheelRefs = (ref: THREE.Object3D | null) => {
     useEffect(() => {
         if (!wheelRefs.current || constantWheelSpin) return;
         for (const wheel of wheelRefs.current) {
+          gsap.to(wheel.rotation, {
+            x: "-=30",
+            duration: 2.5,
+            ease: "circ.out",
+          })
 
 
         }
-    }, [constantWheelSpin])
+    }, [constantWheelSpin, wheelTextureURL])
 
   return (
     <group dispose={null}>

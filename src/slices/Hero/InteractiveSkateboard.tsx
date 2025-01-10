@@ -1,9 +1,9 @@
 "use client"
-
+import * as THREE from "three";
 import { Skateboard } from '@/components/Skateboard'
 import { ContactShadows, Environment, OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import React, { Suspense } from 'react'
+import React, { Suspense, useRef } from 'react'
 
 type Props = {
     deckTextureURL: string;
@@ -23,10 +23,10 @@ export function InteractiveSkateboard({
  >
     <Suspense>
 <Scene
-    deckTextureURL={deckTextureURL}
-    wheelTextureURL={wheelTextureURL}
-    truckColor={truckColor}
-    boltColor={boltColor}
+   deckTextureURL={deckTextureURL}
+   wheelTextureURL={wheelTextureURL}
+   truckColor={truckColor}
+   boltColor={boltColor}
 />
     </Suspense>
     </Canvas>        
@@ -38,10 +38,13 @@ function Scene({
     deckTextureURL, wheelTextureURL, truckColor, boltColor,
 }: Props) {
 
+    const containerRef = useRef<THREE.Group>(null);
+
     return (
         <group>
             <OrbitControls/>
 <Environment files={"/hdr/warehouse-256.hdr"}/>
+<group ref={containerRef}/>
 <Skateboard
 wheelTextureURLs={[wheelTextureURL]}
 wheelTextureURL={wheelTextureURL}
